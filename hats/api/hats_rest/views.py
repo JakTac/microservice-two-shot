@@ -16,7 +16,10 @@ class LocationVODetailEncoder(ModelEncoder):
 
 class HatListEncoder(ModelEncoder):
     model = Hat
-    properties = ["style"]
+    properties = [
+        "style",
+        "id",
+        ]
 
 
 class HatDetailEncoder(ModelEncoder):
@@ -63,11 +66,15 @@ def api_list_hats(request, location_vo_id=None):
             safe=False,
         )
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "DELETE"])
 def api_show_hat(request, pk):
-    hat = Hat.objects.get(id=pk)
-    return JsonResponse(
-        hat,
-        encoder=HatDetailEncoder,
-        safe=False,
-    )
+    if request.method == "GET":
+        hat = Hat.objects.get(id=pk)
+        return JsonResponse(
+            hat,
+            encoder=HatDetailEncoder,
+            safe=False,
+        )
+    else:
+        count, _ = Hat.objects.filter(id=pk).delete()
+        return JsonResponse({"deleted": count > 0})
