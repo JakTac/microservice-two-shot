@@ -1,9 +1,8 @@
 from django.db import models
 
 class BinVO(models.Model):
+    import_href = models.CharField(max_length=100, unique=True, null=True)
     closet_name = models.CharField(max_length=50)
-    bin_number = models.PositiveSmallIntegerField(default=1)
-    bin_size = models.PositiveSmallIntegerField(default=1)
 
 class Shoe(models.Model):
     manufacturer = models.CharField(max_length=50)

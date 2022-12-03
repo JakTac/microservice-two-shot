@@ -9,17 +9,21 @@ sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shoes_project.settings")
 django.setup()
 
-from api.shoes_rest.models import BinVO
+from shoes_rest.models import BinVO
 # Import models from hats_rest, here.
 # from shoes_rest.models import Something
 
 def get_bins():
-    response = requests.get("http://microservice-two-shot-wardrobe-api/bins/")
+    print('getting bins')
+    response = requests.get("http://wardrobe-api:8000/api/bins/")
     content = json.loads(response.content)
     for bin in content['bins']:
+        # print(bin)
         BinVO.objects.update_or_create(
+            import_href=bin["href"],
             defaults={'closet_name': bin['closet_name']},
         )
+        print(BinVO.objects.all().values())
 
 def poll():
     while True:
@@ -28,7 +32,7 @@ def poll():
             get_bins()
         except Exception as e:
             print(e, file=sys.stderr)
-        time.sleep(60)
+        time.sleep(20)
 
 
 if __name__ == "__main__":
