@@ -20,6 +20,7 @@ class ShoesListEncoder(ModelEncoder):
         "manufacturer",
         "model",
         "id",
+        "picture_url",
     ]
 
 class ShoeDetailEncoder(ModelEncoder):

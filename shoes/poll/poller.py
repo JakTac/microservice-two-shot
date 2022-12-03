@@ -22,7 +22,7 @@ def get_bins():
             import_href=bin["href"],
             defaults={'closet_name': bin['closet_name']},
         )
-        print(BinVO.objects.all().values())
+        # print(BinVO.objects.all().values())
 
 def poll():
     while True:
@@ -31,7 +31,7 @@ def poll():
             get_bins()
         except Exception as e:
             print(e, file=sys.stderr)
-        time.sleep(20)
+        time.sleep(60)
 
 
 if __name__ == "__main__":
