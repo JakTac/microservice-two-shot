@@ -31,6 +31,7 @@ class ShoeDetailEncoder(ModelEncoder):
         "color",
         "picture_url",
         "bin",
+        "id",
     ]
     encoders = {
         "bin": BinVODetailEncoder(),

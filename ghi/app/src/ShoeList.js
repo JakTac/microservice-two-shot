@@ -2,23 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function ShoeColumn(props) {
-    let z = JSON.stringify(props)
   return (
     <div className="col">
       {props.list.map(shoe => {
+        let shoeDetailUrl = `${shoe.id}/`
         return (
-          <div key={shoe.model} className="card mb-3 shadow">
-            <img src={shoe.picture_url} className="card-img-top" />
-            <div className="card-body">
-              <h5 className="card-title">{shoe.model}</h5>
-              <h6 className="card-subtitle mb-2 text-muted">
-                {shoe.manufacturer}
-              </h6>
-              <p className="card-text">
-                {shoe.bin.id}
-              </p>
-            </div>
-          </div>
+            <Link to={shoeDetailUrl} className="text-decoration-none" key={shoe.id}>
+                <div className="card mb-3 shadow">
+                    <img src={shoe.picture_url} className="card-img-top" />
+                    <div className="card-body">
+                    <h5 className="card-title">{shoe.model}</h5>
+                    <h6 className="card-subtitle mb-2 text-muted">
+                        {shoe.manufacturer}
+                    </h6>
+                    </div>
+                </div>
+            </Link>
         );
       })}
     </div>
@@ -45,7 +44,7 @@ class MainPage extends React.Component {
         // add all of the requests to it
         const requests = [];
         for (let shoe of data.shoes) {
-          const detailUrl = `http://localhost:8080/api/shoe/${shoe.id}`;
+          const detailUrl = `http://localhost:8080/api/shoes/${shoe.id}`;
           let x = fetch(detailUrl)
           requests.push(x);
         }
@@ -65,7 +64,6 @@ class MainPage extends React.Component {
         for (const shoeResponse of responses) {
           if (shoeResponse.ok) {
             const details = await shoeResponse.json();
-            const stringified = JSON.stringify(details)
             Ss[i].push(details);
             i = i + 1;
             if (i > 2) {
@@ -94,10 +92,13 @@ class MainPage extends React.Component {
             <p className="lead mb-4">
               The only resource you'll ever need to organize your clothing!
             </p>
+            <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <Link to="/shoes/new" className="btn btn-primary btn-lg px-4 gap-3">Add a shoe</Link>
+            </div>
           </div>
         </div>
         <div className="container">
-          <h2>New Releases</h2>
+          <h2>Shoes</h2>
           <div className="row">
             {this.state.Ss.map((shoeList, index) => {
               return (
