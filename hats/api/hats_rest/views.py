@@ -30,6 +30,7 @@ class HatDetailEncoder(ModelEncoder):
         "style",
         "color",
         "picture_url",
+        "id",
         "location",
     ]
     encoders = {
@@ -51,9 +52,9 @@ def api_list_hats(request, location_vo_id=None):
         content = json.loads(request.body)
         print(content)
         try:
-            location_id = content["location"]
+            location_id = content['location']
             location = LocationVO.objects.get(id=location_id)
-            content["location"] = location
+            content['location'] = location
         except LocationVO.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid location id"},

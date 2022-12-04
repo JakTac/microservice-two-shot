@@ -14,10 +14,16 @@ function Nav() {
               <NavLink className="nav-link active" aria-current="page" to="/">Home</NavLink>
             </li>
             <li className="nav-item">
+              <NavLink className="nav-link active" aria-current="page" to="/location/">Location</NavLink>
+            </li>
+            <li className="nav-item">
               <NavLink className="nav-link" to="/shoes">Shoes</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/hats">Hats</NavLink>
+              <NavLink className="nav-link" to="/hat/">Add a Hat</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/hats/">Your hats</NavLink>
             </li>
           </ul>
         </div>
