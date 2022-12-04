@@ -37,7 +37,8 @@ class ShoeForm extends React.Component {
         if (response.ok) {
           const newShoe = await response.json();
           console.log(newShoe);
-
+          window.alert("The shoe was created!")
+          // this.props.navigation.navigate('/shoes')
           const cleared = {
             Model: '',
             manufacturer: '',

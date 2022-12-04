@@ -1,26 +1,23 @@
 import React from'react';
+import { Link, useNavigate } from 'react-router-dom'
 
 function HatColumn(props) {
     return (
         <div className="col">
             {props.list.map(hat => {
-                console.log(hat)
+                let HatDetailUrl = `${hat.id}/`
                 return (
-                    <div key={hat.id} className="card mb-3 shadow">
-                        <img src={hat.picture_url} className="card-img-top" />
-                        <div className="card-body">
-                            <h5 className="card-title">{hat.style}</h5>
-                            <h6 className="card-subtitle mb-2 text-muted">
-                                {hat.color}
-                            </h6>
-                            <p className="card-text">
-                                {hat.fabric}
-                            </p>
+                    <Link to={HatDetailUrl} className="text-decoration-none" key={hat.id}>
+                        <div className="card mb-3 shadow">
+                            <img src={hat.picture_url} className="card-img-top" />
+                            <div className="card-body">
+                                <h5 className="card-title">{hat.style}</h5>
+                                <h6 className="card-subtitle mb-2 text-muted">
+                                    {hat.fabric}
+                                </h6>
+                            </div>
                         </div>
-                        <div className="card-footer">
-                            {hat.location.closet_name}
-                        </div>
-                    </div>
+                    </Link>
                 );
             })}
         </div>
@@ -45,7 +42,7 @@ class HatsList extends React.Component {
 
                 const requests = [];
                 for (let hat of data.hats) {
-                    const detailUrl = `http://localhost:8090/api/hat/${hat.id}/`;
+                    const detailUrl = `http://localhost:8090/api/hats/${hat.id}/`;
                     requests.push(fetch(detailUrl));
                 }
                 const responses = await Promise.all(requests);
@@ -74,6 +71,18 @@ class HatsList extends React.Component {
     render() {
         return (
             <>
+            <div className="px-4 py-5 my-5 mt-0 text-center bg-info">
+          <img className="bg-white rounded shadow d-block mx-auto mb-4" src="/logo.svg" alt="" width="600" />
+          <h1 className="display-5 fw-bold">Wardrobify</h1>
+          <div className="col-lg-6 mx-auto">
+            <p className="lead mb-4">
+              The only resource you'll ever need to organize your clothing!
+            </p>
+            <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <Link to="/hats/new" className="btn btn-primary btn-lg px-4 gap-3">Add a hat</Link>
+            </div>
+          </div>
+        </div>
               <div className="container">
                 <h1>Your hats</h1>
                 <div className="row">
