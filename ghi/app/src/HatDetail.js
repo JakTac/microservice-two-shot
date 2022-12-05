@@ -10,12 +10,23 @@ function HatDetail (props) {
 
     useEffect(() => {
         fetch(HatUrl)
-        .then(res => {
-            return res.json();
-        })
-        .then(data => {
-            setHat(data)
-        })
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+            return data
+            })
+            .then(hat => {
+                const locationUrl = `http://localhost:8100${hat.location.import_href}`
+                fetch(locationUrl)
+                .then(respone => {
+                    return respone.json();
+                })
+                .then(location => {
+                    const combinedData = Object.assign({}, hat, location)
+                    setHat(combinedData)
+                })
+            })
     }, []);
 
     const handleClick = (displaySpot) => {
@@ -57,7 +68,7 @@ function HatDetail (props) {
             </p>
         </div>
         <div className="card-footer">
-            Closet: {hat.location.closet_name}
+            Closet Name: {hat.location.closet_name} | Section Number: {hat.section_number} | Shelf Number: {hat.shelf_number}
         </div>
         <button onClick={handleClick} className="btn btn-danger">Delete</button>
         </div>
