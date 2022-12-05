@@ -1,12 +1,14 @@
 import { React, useEffect, useState } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 
 function ShoeDetail (props) {
     let navigate = useNavigate()
+
     let spotId = useParams()
     const displaySpot = parseInt(spotId.id)
     const ShoeUrl = `http://localhost:8080/api/shoes/${displaySpot}/`
+
     const [shoe, setShoe] = useState(null)
 
     useEffect(() => {
@@ -15,7 +17,18 @@ function ShoeDetail (props) {
                 return res.json();
             })
             .then(data => {
-                setShoe(data)
+                return data
+            })
+            .then(shoe => {
+                const binUrl = `http://localhost:8100${shoe.bin.import_href}`
+                fetch(binUrl)
+                .then(response => {
+                    return response.json();
+                })
+                .then(bin => {
+                    const combinedData = Object.assign({},shoe, bin)
+                    setShoe(combinedData)
+                })
             })
     }, []);
 
@@ -58,7 +71,7 @@ function ShoeDetail (props) {
               </p>
             </div>
             <div className="card-footer">
-              Closet: {shoe.bin.closet_name}
+              Closet Name: {shoe.bin.closet_name} | Bin Number: {shoe.bin_number} | Bin Size: {shoe.bin_size}
             </div>
             <button onClick={handleClick} className="btn btn-danger">Delete</button>
           </div>
